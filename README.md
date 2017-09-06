@@ -8,7 +8,7 @@
 - Sweet style :>
 
 # Screenshots:
-![in-game-menu](/styles/media/in-game-menu.png?raw=true "Main Menu")
+![in-game-menu](./src/styles/media/in-game-menu.png?raw=true "Main Menu")
 
 
 
