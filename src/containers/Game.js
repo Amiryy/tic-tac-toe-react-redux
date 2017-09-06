@@ -60,8 +60,8 @@ class Game extends Component {
            ];
            for (let i = 0; i < streaks.length; i++) {
                const [a, b, c, d] = streaks[i];
-               if (squares[a] && squares[d] === squares[a] && squares[b]
-                   === squares[c] && squares[d]) {
+               if (squares[a] && squares[a] === squares[b] && squares[a]
+                   === squares[c] && squares[a] === squares[d]) {
                    return { "winner": squares[a], "winningLine": [a, b, c, d] }
                }
            }
