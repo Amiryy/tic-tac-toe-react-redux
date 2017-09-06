@@ -9,6 +9,9 @@
 
 # Screenshots:
 ![in-game-menu](./src/styles/media/in-game-menu.png?raw=true "Main Menu")
+![in-game-settings](./src/styles/media/in-game-settings.png?raw=true "Settings")
+![in-game](./src/styles/media/in-game.png?raw=true "In-Game")
+
 
 
 
