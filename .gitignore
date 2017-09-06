@@ -1,5 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+#Webstorm project settings
+/.idea
+
 # dependencies
 /node_modules
 
@@ -22,3 +25,4 @@ yarn-error.log*
 .idea/workspace.xml
 .idea/workspace.xml
 my-tic-tac-toe/
+.idea/workspace.xml
