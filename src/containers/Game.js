@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { playerMove, timeTravel, toggleHistory } from "../actions/gameActions";
 import { newGame } from '../actions/interfaceActions';
 import Board from '../components/Board';
+import TimeTravel from "../components/TimeTravel";
 
 class Game extends Component {
     constructor (props) {
@@ -15,13 +16,16 @@ class Game extends Component {
     }
     playerMove (i) {
         const history = this.props.history.slice(0, this.props.stepNumber + 1);
-        const current = history[history.length - 1];
+        const current = history[this.props.stepNumber];
         const squares = current.squares.slice();
-        if (this.calculateWinner(squares) || squares[i]) {
+        if (this.calculateWinner(squares).winner || squares[i]) {
             return;
         }
         squares[i] = this.props.xTurn ? 'X' : 'O';
-        this.props.playerMove(history, squares); //redux action
+        this.props.playerMove(
+            history,
+            squares
+        ); //Redux action
     }
     calculateWinner(squares) {
        if(this.props.grid === 9) {
@@ -38,7 +42,7 @@ class Game extends Component {
            for (let i = 0; i < streaks.length; i++) {
                const [a, b, c] = streaks[i];
                if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                   return squares[a];
+                   return { "winner": squares[a], "winningLine": [a, b, c] }
                }
            }
        } else if (this.props.grid === 16) {
@@ -56,13 +60,13 @@ class Game extends Component {
            ];
            for (let i = 0; i < streaks.length; i++) {
                const [a, b, c, d] = streaks[i];
-               if (squares[a] && squares[a] === squares[b] && squares[a]
+               if (squares[a] && squares[d] === squares[a] && squares[b]
                    === squares[c] && squares[d]) {
-                   return squares[a];
+                   return { "winner": squares[a], "winningLine": [a, b, c, d] }
                }
            }
        }
-        return null;
+        return {"winner": null, "winningLine": [null, null, null] };
     }
     jumpTo (move) {
         this.props.timeTravel(move);
@@ -70,7 +74,8 @@ class Game extends Component {
     render () {
         const history = this.props.history;
         const current = history[this.props.stepNumber];
-        const winner = this.calculateWinner(current.squares);
+        const winner = this.calculateWinner(current.squares).winner;
+        const winningLine = this.calculateWinner(current.squares).winningLine;
 
         const moves = history.map((step, move) => {
             const description = move ?
@@ -81,7 +86,6 @@ class Game extends Component {
                 </li>
             )
         });
-
         let status;
         if (winner) {
             status = winner + ' is the winner!';
@@ -95,7 +99,7 @@ class Game extends Component {
                        <Link to='/'>
                            <button className="exit_game">Main Menu</button>
                        </Link>
-                   <button onClick={() => this.props.newGame(this.props.grid)}
+                   <button onClick={() => this.props.newGame()}
                            className="exit_game">
                        New Game
                    </button>
@@ -105,18 +109,14 @@ class Game extends Component {
                     <Board
                         grid={this.props.grid}
                         squares={current.squares}
-                        playerMove={(i) => this.playerMove(i)}/>
+                        playerMove={(i) => this.playerMove(i)}
+                        winningLine={winningLine} />
                </div>
                 <div className='right_col_game'>
-                    <div className="game_history">
-                        <button className='show_history'
-                                onClick={this.props.toggleHistory}>
-                            Wish You Could Time Travel?
-                        </button>
-                        <div className={this.props.showHistory ? 'list' : 'list_hidden'}>
-                            <ul>{moves}</ul>
-                        </div>
-                    </div>
+                   <TimeTravel
+                       moves={moves}
+                       showHistory={this.props.showHistory}
+                       toggleHistory={this.props.toggleHistory}/>
                 </div>
             </div>
         )

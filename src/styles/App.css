@@ -140,7 +140,8 @@ a:active {
 }
 table {
   border-collapse: collapse;
-  width: 100%
+  width: 100%;
+  font-weight: 600;
 }
 
 .game_page{
@@ -168,7 +169,7 @@ table {
 @media only screen and (max-width: 700px) {
   #left_col_game, #mid_col_game, #right_col_game {
     width: 100%;
-    margin: 1% 0 1% 0%;
+    margin: 1% 0 1% 0;
     float: none;
   }
 }
@@ -193,7 +194,7 @@ table {
   font-family: Raleway , serif;
 }
 .square_filled {
-  box-shadow: 5px 5px 2px #888888;
+  box-shadow: 2px 2px 2px 2px #888888;
   animation: fade-in 1s forwards;
   background: transparent;
   border: 1px solid #222222;
@@ -208,6 +209,11 @@ table {
 }
 .square:active {
   box-shadow: 5px 5px 2px #888888 inset;
+}
+.square_filled.win {
+  background-color: #00ffff;
+  border: 1px solid #222222;
+  box-shadow: 2px 2px 5px 5px #888888;
 }
 
 button {

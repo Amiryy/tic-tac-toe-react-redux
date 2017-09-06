@@ -1,7 +1,6 @@
-export const newGame = (grid) => {
+export const newGame = () => {
     return {
-        type: 'NEW_GAME',
-        grid: grid
+        type: 'NEW_GAME'
     }
 };
 export const setGrid = (grid) => {

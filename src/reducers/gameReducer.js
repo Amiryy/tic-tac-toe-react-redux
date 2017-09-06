@@ -1,6 +1,8 @@
 /* eslint-disable no-unreachable */
 const initialState =
     {
+        versus: 'P',
+        difficulty:'easy',
         grid: 9,
         history: [{
             squares: new Array(9).fill(null)
@@ -8,8 +10,6 @@ const initialState =
         showHistory: false,
         stepNumber: 0,
         xTurn: true,
-        versus: 'P',
-        difficulty:'easy'
     };
 
 const gameReducer = (state = initialState, action) => {
@@ -31,7 +31,6 @@ const gameReducer = (state = initialState, action) => {
             break;
         case 'NEW_GAME':
             return {...state,
-                grid: action.grid,
                 history:[{
                     squares: new Array(state.grid).fill(null)
                 }],

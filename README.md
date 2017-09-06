@@ -1,11 +1,16 @@
-# Amiry's  Tic - Tac - Toe!
+# Amiry's  Tic-Tac-Toe!
 
-# first commit:
-- Initial version of my Tic-Tac-Toe
-- Includes 3x3 and 4x4 grids
-- Time travel
+# Current Features:
+- 3x3 and 4x4 grids
+- Time travel with highlight
 - New Game button
+- Winning line highlight
 - Sweet style :>
+
+# Screenshots:
+![in-game-menu](/styles/media/in-game-menu.png?raw=true "Main Menu")
+
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 

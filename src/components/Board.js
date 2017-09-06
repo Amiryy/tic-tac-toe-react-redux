@@ -10,6 +10,10 @@ const Board = (props) => {
                   return ( <Square
                                 key={square}
                                 id={square}
+                                className={props.winningLine.filter(
+                                    (winningSquare) => winningSquare === square)
+                                    .length > 0 ? 'win' : ''
+                                }
                                 value={props.squares[square]}
                                 onClick={(square) => props.playerMove(square)}
                       />
