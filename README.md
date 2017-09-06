@@ -1,11 +1,11 @@
-Amiry's  Tic - Tac - Toe!
+# Amiry's  Tic - Tac - Toe!
 
-first commit:
-# Initial version of my Tic-Tac-Toe
-# Includes 3x3 and 4x4 grids
-# Time travel
-# New Game button
-# Sweet style :>
+# first commit:
+- Initial version of my Tic-Tac-Toe
+- Includes 3x3 and 4x4 grids
+- Time travel
+- New Game button
+- Sweet style :>
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
