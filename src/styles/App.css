@@ -42,12 +42,15 @@
   90% { transform: skewX(0deg); }
   100% { transform: skewX(0deg); }
 }
+* {
+  font-family: Raleway , serif;
+  color: #222222;
+}
+
 body {
   cursor: default;
   text-align: center;
   box-sizing: border-box;
-  font-family: Raleway , serif;
-  color: #222222;
   background-image: url("./media/pozadi.jpg");
 }
 

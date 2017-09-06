@@ -89,6 +89,8 @@ class Game extends Component {
         let status;
         if (winner) {
             status = winner + ' is the winner!';
+        }else if (this.props.stepNumber === this.props.grid) {
+            status = 'Its a Draw!';
         } else {
             status = (this.props.xTurn ? 'X' : 'O') + "'s turn."
         }
