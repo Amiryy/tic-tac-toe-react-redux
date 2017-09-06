@@ -82,7 +82,10 @@ class Game extends Component {
                 'Move #' + move : 'Game Start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{description}</button>
+                    <button onClick={() => this.jumpTo(move)}
+                            className={(this.props.stepNumber===move) ? 'current_step' : ''}>
+                        {description}
+                    </button>
                 </li>
             )
         });
