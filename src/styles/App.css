@@ -1,0 +1,286 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:300);
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(+20%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+@keyframes slide-out {
+  0% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(+20%);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes wiggle {
+  0% { transform: skewX(9deg); }
+  10% { transform: skewX(-8deg); }
+  20% { transform: skewX(7deg); color: #c40000; }
+  30% { transform: skewX(-6deg); }
+  40% { transform: skewX(5deg); }
+  50% { transform: skewX(-4deg); }
+  60% { transform: skewX(3deg); }
+  70% { transform: skewX(-2deg); }
+  80% { transform: skewX(1deg); }
+  90% { transform: skewX(0deg); }
+  100% { transform: skewX(0deg); }
+}
+body {
+  cursor: default;
+  text-align: center;
+  box-sizing: border-box;
+  font-family: Raleway , serif;
+  color: #222222;
+  background-image: url("./media/pozadi.jpg");
+}
+
+.App-header {
+  background-color: transparent;
+  color: #222222;
+  font-size: 3rem;
+  letter-spacing: 10px;
+  text-align: center;
+}
+.App-header p{
+  margin: 0 auto;
+  display: block;
+}
+.author {
+  font-size: 1rem;
+  float: left;
+  margin-left: 3%;
+  display: block;
+}
+a {
+  color: inherit;
+  transition: 0.25s ease-in;
+}
+a:hover {
+  color: cyan;
+}
+a:active {
+  outline: none;
+}
+.menu_button {
+  animation: slide-in 0.75s forwards;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 2%;
+  transition: 0.33s ease-in;
+  padding: 1%;
+  font-family: Raleway , serif;
+  color: #222222;
+  font-size: 2rem;
+}
+.menu_button:hover{
+  box-shadow: 1px 1px 1px 1px #888888 inset;
+  color: #00c8c8;
+}
+
+.settings_page{
+  animation: fade-in 1s forwards;
+  padding-top: 1%;
+}
+.left_col_settings {
+  width: 25%;
+  display: inline-block;
+  position: relative;
+  float: left;
+}
+.mid_col_settings {
+  width: 75%;
+  margin: 0 auto;
+  display: inline-block;
+}
+.value button {
+  background-color: transparent;
+  border: none;
+  margin-bottom: 5%;
+  transition: 0.33s ease-in;
+  padding: 5%;
+  font-family: Raleway , serif;
+  font-size: 1.2rem;
+  color: #222222;
+}
+.value button.selected {
+  color: #00c8c8;
+}
+.value_hidden button{
+  background-color: transparent;
+  border: none;
+  margin-bottom: 5%;
+  transition: 0.33s ease-in;
+  padding: 5%;
+  font-family: Raleway , serif;
+  font-size: 1.2rem;
+  color: #222222;
+}
+.shown {
+  animation: slide-in 0.5s forwards;
+}
+.hidden {
+  animation: slide-out 0.5s forwards;
+}
+table {
+  border-collapse: collapse;
+  width: 100%
+}
+
+.game_page{
+  animation: fade-in 1s forwards;
+  padding-top: 1%;
+}
+
+.left_col_game {
+  width: 33%;
+  display: inline-block;
+  position: relative;
+  float: left;
+}
+.mid_col_game {
+  width: 33%;
+  margin: 0 auto;
+  display: inline-block;
+}
+.right_col_game {
+  width: 33%;
+  display: inline-block;
+  position: relative;
+  float: right;
+}
+@media only screen and (max-width: 700px) {
+  #left_col_game, #mid_col_game, #right_col_game {
+    width: 100%;
+    margin: 1% 0 1% 0%;
+    float: none;
+  }
+}
+
+.board_9 {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(3, 7rem);
+  grid-template-rows: repeat(3, 7rem);
+}
+
+.board_16 {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(4, 5rem);
+  grid-template-rows: repeat(4, 5rem);
+}
+.square {
+  background: transparent;
+  border: 1px solid #aaaaaa;
+  transition: 0.5s;
+  font-family: Raleway , serif;
+}
+.square_filled {
+  box-shadow: 5px 5px 2px #888888;
+  animation: fade-in 1s forwards;
+  background: transparent;
+  border: 1px solid #222222;
+  font-size: 3.5rem;
+  font-family: Raleway , serif;
+}
+.square_filled:active {
+  animation: wiggle 0.25s forwards;
+}
+.square:hover {
+  border-color: cyan;
+}
+.square:active {
+  box-shadow: 5px 5px 2px #888888 inset;
+}
+
+button {
+  cursor: pointer;
+}
+button:focus {
+  outline: none;
+}
+.exit_game {
+  background-color: transparent;
+  margin: 1%;
+  padding: 2%;
+  font-family: Raleway , serif;
+  font-size: 1.2rem;
+  color: #222222;
+  border: none;
+  transition: 0.33s ease-in;
+}
+.exit_game:hover {
+  box-shadow: 1px 1px 1px 1px #888888 inset;
+  color: #009292;
+}
+
+.game_status {
+  animation: fade-in 0.5s forwards;
+  width: 50%;
+  margin: 0 auto;
+  font-size: 2rem;
+}
+
+ul{
+  list-style: none;
+}
+li{
+  width: 50%;
+  margin: 0 auto;
+}
+.game_history{
+}
+.show_history {
+  background-color: transparent;
+  margin: 1%;
+  padding: 3%;
+  font-family: Raleway , serif;
+  font-size: 1.2rem;
+  color: #222222;
+  border: none;
+  transition: 0.33s ease-in;
+}
+.show_history:hover {
+  box-shadow: 1px 1px 1px 1px #888888 inset;
+  color: #00c8c8;
+}
+.list button {
+  animation: slide-in 0.75s forwards;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 5%;
+  transition: 0.33s ease-in;
+  padding: 5%;
+  font-family: Raleway , serif;
+  color: #222222;
+}
+.list button:hover {
+  box-shadow: 1px 1px 1px 1px #888888 inset;
+}
+.list button:focus {
+  color: #00c8c8;
+}
+.list_hidden button{
+  animation: slide-out 0.5s forwards;
+  background-color: transparent;
+  border: none;
+  margin-bottom: 5%;
+  padding: 5%;
+}
