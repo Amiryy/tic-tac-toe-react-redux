@@ -1,11 +1,14 @@
 # Amiry's  Tic-Tac-Toe!
 
-# Current Features:
+# Features:
 - 3x3 and 4x4 grids
-- Time travel with highlight
+- Time travel
+- Current step highlighted
 - New Game button
 - Winning line highlight
-- Sweet style :>
+- Interactive interface and settings
+- Beautiful UI
+
 
 # Screenshot:
 ![in-game](./src/styles/media/in-game.png?raw=true "In-Game")
