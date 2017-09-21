@@ -2,7 +2,7 @@
   "name": "tic-tac-toe",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://amiryy.github.io/my-tic-tac-toe-react-redux/",
+  "homepage": "https://amiryy.github.io/tic-tac-toe-react-redux/",
   "dependencies": {
     "object-hash": "^1.1.8",
     "react": "^15.6.1",
