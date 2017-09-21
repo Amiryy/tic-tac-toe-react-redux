@@ -3,125 +3,186 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import { playerMove, timeTravel, toggleHistory } from "../actions/gameActions";
-import { newGame } from '../actions/interfaceActions';
+import {
+    playerMove, timeTravel, toggleHistory,
+    timeUp, newGame, endGame
+} from "../actions/gameActions";
+import { getBestMove } from '../actions/aiActions';
+
 import Board from '../components/Board';
+import GameStatus from '../components/GameStatus';
 import TimeTravel from "../components/TimeTravel";
 
 class Game extends Component {
     constructor (props) {
         super (props);
         this.playerMove = this.playerMove.bind(this);
-        this.calculateWinner = this.calculateWinner.bind(this);
+        this.indicateVictory = this.indicateVictory.bind(this);
+        this.movesList = this.movesList.bind(this);
+        this.gameStatus = this.gameStatus.bind(this);
     }
     playerMove (i) {
         const history = this.props.history.slice(0, this.props.stepNumber + 1);
-        const current = history[this.props.stepNumber];
-        const squares = current.squares.slice();
-        if (this.calculateWinner(squares).winner || squares[i]) {
+        const board = this.props.currentBoard.slice();
+        if (this.indicateVictory(board).winner || board[i]) {
+            console.log('move blocked: ' + i);
             return;
         }
-        squares[i] = this.props.xTurn ? 'X' : 'O';
-        this.props.playerMove(
-            history,
-            squares
-        ); //Redux action
+        board[i] = this.props.xTurn ? 'X' : 'O';
+        this.props.playerMove(history, board); //Redux action
     }
-    calculateWinner(squares) {
-       if(this.props.grid === 9) {
-           const streaks = [ // all the possible line streaks that could make a winner.
-               [0, 1, 2],
-               [3, 4, 5],
-               [6, 7, 8],
-               [0, 3, 6],
-               [1, 4, 7],
-               [2, 5, 8],
-               [0, 4, 8],
-               [2, 4, 6],
-           ];
-           for (let i = 0; i < streaks.length; i++) {
-               const [a, b, c] = streaks[i];
-               if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-                   return { "winner": squares[a], "winningLine": [a, b, c] }
-               }
-           }
-       } else if (this.props.grid === 16) {
-           const streaks = [
-               [0, 1, 2, 3],
-               [4, 5, 6, 7],
-               [8, 9, 10, 11],
-               [12, 13, 14, 15],
-               [0, 4, 8, 12],
-               [1, 5, 9, 13],
-               [2, 6, 10, 14],
-               [3, 7, 11, 15],
-               [0, 5, 10, 15],
-               [3, 6, 9, 12]
-           ];
-           for (let i = 0; i < streaks.length; i++) {
-               const [a, b, c, d] = streaks[i];
-               if (squares[a] && squares[a] === squares[b] && squares[a]
-                   === squares[c] && squares[a] === squares[d]) {
-                   return { "winner": squares[a], "winningLine": [a, b, c, d] }
-               }
-           }
-       }
-        return {"winner": null, "winningLine": [null, null, null] };
-    }
-    jumpTo (move) {
-        this.props.timeTravel(move);
-    }
-    render () {
-        const history = this.props.history;
-        const current = history[this.props.stepNumber];
-        const winner = this.calculateWinner(current.squares).winner;
-        const winningLine = this.calculateWinner(current.squares).winningLine;
+    indicateVictory(cells) {
+        const streaks = this.props.streaks;
+        if(this.props.grid === 9) {
+            for (let i = 0; i < streaks.length; i++) {
+                const [a, b, c] = streaks[i];
+                if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+                    return {
+                        winner: cells[a], winningLine: [a, b, c]
+                    }
+                }
+            }
+        } else if (this.props.grid === 16) {
+            for (let i = 0; i < streaks.length; i++) {
+                const [a, b, c, d] = streaks[i];
+                if (cells[a] && cells[a] === cells[b] && cells[a]
+                    === cells[c] && cells[a] === cells[d]) {
+                    return {
+                        winner: cells[a], winningLine: [a, b, c, d]
+                    }
+                }
+            }
+        }
+        return {
+            winner: null, winningLine: [null, null, null] };
+    };
 
-        const moves = history.map((step, move) => {
+    movesList (history) {
+        return history.map((step, move) => {
+            const player = move % 2 ? ' - X' : ' - O';
             const description = move ?
-                'Move #' + move : 'Game Start';
+                'Move #' + move + player : 'Game Start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}
-                            className={(this.props.stepNumber===move) ? 'current_step' : ''}>
+                    <button onClick={() =>  this.props.timeTravel(move)}
+                            className={(this.props.stepNumber===move) ?
+                                'current_step' : ''}>
                         {description}
                     </button>
                 </li>
             )
         });
-        let status;
+    }
+    gameStatus (winner) {
+        let status, endGame;
         if (winner) {
             status = winner + ' is the winner!';
-        }else if (this.props.stepNumber === this.props.grid) {
+            endGame = true;
+        } else if (!winner && this.props.stepNumber === this.props.grid) {
             status = 'Its a Draw!';
+            endGame = true;
         } else {
             status = (this.props.xTurn ? 'X' : 'O') + "'s turn."
+            endGame = false;
         }
+        return {status, endGame};
+    }
+
+    componentWillMount () {
+        const xTurn = this.props.xTurn;
+        const { playerStarts, versus } = this.props.gameSettings;
+        const board = this.props.currentBoard.slice();
+        if (this.props.stepNumber === 0) {
+            if (!playerStarts && xTurn && versus === 'A') {
+                const move = getBestMove(board, this.props.grid, xTurn);
+                setTimeout(() => {
+                    this.playerMove(move)
+                }, 500)
+            }
+        }
+    }
+    componentWillReceiveProps (nextProps) {
+        const xTurn = nextProps.xTurn;
+        const { playerStarts, versus } = nextProps.gameSettings;
+        const winner = this.indicateVictory(nextProps.currentBoard.slice()).winner;
+        const endOfGame = nextProps.endOfGame;
+        if(nextProps.stepNumber || (nextProps.stepNumber === 0)) {
+            if (!endOfGame && !playerStarts && xTurn && versus === 'A') {
+                 // if AI plays first (X)
+                const move = getBestMove(
+                    nextProps.currentBoard.slice(),
+                    this.props.grid, xTurn
+                );
+                setTimeout(() => {
+                    this.playerMove(move)
+                }, 500)
+            }
+            if (!endOfGame && playerStarts && !xTurn && versus === 'A') {
+                 // if AI plays second (O)
+                const move = getBestMove(
+                    nextProps.currentBoard.slice(),
+                    this.props.grid, xTurn
+                );
+                setTimeout(() => {
+                    this.playerMove(move)
+                }, 500)
+            }
+        }
+        if (this.gameStatus(winner).endGame) {
+            // endGame call from a lifecycle method instead of render
+            // to avoid impure setState warnings.
+            this.props.endGame();
+        }
+    }
+    render () {
+        const history = this.props.history;
+        const currentBoard = this.props.currentBoard;
+        const winner = this.indicateVictory(currentBoard).winner;
+        const winningRow = this.indicateVictory(currentBoard).winningLine;
+        const moves = this.movesList(history);
+        const status = this.gameStatus(winner).status;
+        const endOfGame = this.gameStatus(winner).endGame;
+
         return (
             <div className="game_page">
                 <hr />
                <div className='left_col_game'>
                        <Link to='/'>
-                           <button className="exit_game">Main Menu</button>
+                           <button className="exit_game">
+                               Main Menu
+                           </button>
                        </Link>
-                   <button onClick={() => this.props.newGame()}
+                   <Link to='/game'>
+                   <button onClick={() => this.props.newGame(this.props.grid)}
                            className="exit_game">
                        New Game
                    </button>
+                   </Link>
                </div>
                 <div className='mid_col_game'>
-                   <div className="game_status"><p>{status}</p></div>
+                   <GameStatus
+                        status={status}
+                        gameMode={this.props.mode}
+                        timerPace={this.props.pace}
+                        timeUp={this.props.timeUp}
+                        xTurn={this.props.xTurn}
+                        gameEnd={endOfGame}
+                        firstMove={this.props.stepNumber===0}/>
                     <Board
                         grid={this.props.grid}
-                        squares={current.squares}
+                        cells={this.props.currentBoard}
+                        gameEnd={endOfGame}
+                        xTurn={this.props.xTurn}
                         playerMove={(i) => this.playerMove(i)}
-                        winningLine={winningLine} />
+                        winningRow={winningRow}
+                        playerStarts={this.props.playerStarts}
+                        versus={this.props.versus} />
                </div>
                 <div className='right_col_game'>
                    <TimeTravel
                        moves={moves}
                        showHistory={this.props.showHistory}
-                       toggleHistory={this.props.toggleHistory}/>
+                       toggleHistory={this.props.toggleHistory} />
                 </div>
             </div>
         )
@@ -129,19 +190,30 @@ class Game extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    gameSettings: state.settings,
+    mode: state.settings.mode,
+    pace: state.settings.pace,
+    versus: state.settings.versus,
+    playerStarts: state.settings.playerStarts,
     grid: state.game.grid,
+    streaks: state.game.streaks,
     history: state.game.history,
+    currentBoard: state.game.currentBoard,
     xTurn: state.game.xTurn,
     stepNumber: state.game.stepNumber,
-    showHistory: state.game.showHistory
+    showHistory: state.game.showHistory,
+    endOfGame: state.game.endOfGame
 });
 const matchDispatchToProps = (dispatch) => {
     return bindActionCreators(
         {
+            getBestMove: getBestMove,
             playerMove: playerMove,
+            timeUp: timeUp,
             toggleHistory: toggleHistory,
             timeTravel: timeTravel,
-            newGame: newGame
+            newGame: newGame,
+            endGame: endGame
         }, dispatch)
 };
 

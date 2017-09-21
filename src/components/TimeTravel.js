@@ -1,9 +1,11 @@
 import React from 'react';
 
 const TimeTravel = (props) => {
+    const showHistory = props.showHistory ?
+        'show_history_active' : 'show_history_closed';
     return (
         <div className="game_history">
-            <button className='show_history'
+            <button className={showHistory}
                     onClick={props.toggleHistory}>
                 Wish You Could Time Travel?
             </button>

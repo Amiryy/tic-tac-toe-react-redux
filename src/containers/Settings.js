@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 
-import { setGrid, setVs, setDiff } from "../actions/interfaceActions";
+import { setGrid } from '../actions/gameActions';
+import {setMode, setPace, setVs, setDiff, setStarter} from "../actions/settingsActions";
 import SettingsTable from "../components/SettingsTable";
 
 class Settings extends Component {
@@ -18,12 +19,19 @@ class Settings extends Component {
                     </Link>
                 </div>
                 <div className='mid_col_settings'>
-                    <SettingsTable grid={this.props.grid}
+                    <SettingsTable
+                        grid={this.props.grid}
+                        mode={this.props.mode}
+                        pace={this.props.pace}
                         versus={this.props.versus}
                         difficulty={this.props.difficulty}
+                        playerStarts={this.props.playerStarts}
                         setGrid={this.props.setGrid}
+                        setMode={this.props.setMode}
+                        setPace={this.props.setPace}
                         setVs={this.props.setVs}
-                        setDiff={this.props.setDiff}/>
+                        setDiff={this.props.setDiff}
+                        setStarter={this.props.setStarter} />
                 </div>
             </div>
         )
@@ -32,15 +40,21 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => ({
     grid: state.game.grid,
-    versus: state.game.versus,
-    difficulty: state.game.difficulty
+    mode: state.settings.mode,
+    pace: state.settings.pace,
+    versus: state.settings.versus,
+    difficulty: state.settings.difficulty,
+    playerStarts: state.settings.playerStarts
 });
 const matchDispatchToProps = (dispatch) => {
     return bindActionCreators(
         {
             setGrid: setGrid,
+            setMode: setMode,
+            setPace: setPace,
             setVs: setVs,
-            setDiff: setDiff
+            setDiff: setDiff,
+            setStarter: setStarter
         }, dispatch)
 };
 

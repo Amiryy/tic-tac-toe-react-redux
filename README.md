@@ -6,8 +6,11 @@
 - Current step highlighted
 - New Game button
 - Winning line highlight
+- Different AI difficulties - Under Construction
+- Timed mode
 - Interactive interface and settings
 - Beautiful UI
+- Built with React and Redux
 
 
 # Screenshot:
