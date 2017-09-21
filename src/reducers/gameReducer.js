@@ -17,6 +17,7 @@ export const initialState =
         }],
         currentBoard: new Array(9).fill(null),
         stepNumber: 0,
+        timeTraveled: false,
         xTurn: true,
         showHistory: false,
         endOfGame: false
@@ -81,7 +82,8 @@ export const gameReducer = (state = initialState, action) => {
                 currentBoard: action.cells,
                 xTurn: !state.xTurn,
                 stepNumber: action.history.length,
-                endOfGame: false
+                endOfGame: false,
+                timeTraveled: false
             };
             break;
         case 'TIME_UP':
@@ -98,7 +100,8 @@ export const gameReducer = (state = initialState, action) => {
             return {...state,
                 stepNumber: action.move,
                 currentBoard: state.history[action.move].cells,
-                xTurn: !(action.move % 2)
+                xTurn: !(action.move % 2),
+                timeTraveled: true
             };
             break;
         default:

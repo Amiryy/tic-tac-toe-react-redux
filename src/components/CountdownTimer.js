@@ -61,7 +61,7 @@ class CountDownTimer extends Component {
         if(nextProps.turnChange || !nextProps.turnChange) {
             this.resetTimer();
         }
-        if (nextProps.firstMove || nextProps.gameEnd) {
+        if (nextProps.firstMove || nextProps.gameEnd || nextProps.timeTraveled) {
             this.pauseTimer();
         }
     }

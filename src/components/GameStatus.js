@@ -14,7 +14,8 @@ const GameStatus = (props) => {
                     timeUp={props.timeUp}
                     turnChange={props.xTurn}
                     gameEnd={props.gameEnd}
-                    firstMove={props.firstMove} />
+                    firstMove={props.firstMove}
+                    timeTraveled={props.timeTraveled} />
             </div>
             <p>{props.status}</p>
         </div>

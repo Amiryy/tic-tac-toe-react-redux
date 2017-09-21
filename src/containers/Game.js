@@ -82,7 +82,7 @@ class Game extends Component {
             status = 'Its a Draw!';
             endGame = true;
         } else {
-            status = (this.props.xTurn ? 'X' : 'O') + "'s turn."
+            status = (this.props.xTurn ? 'X' : 'O') + "'s turn.";
             endGame = false;
         }
         return {status, endGame};
@@ -152,12 +152,10 @@ class Game extends Component {
                                Main Menu
                            </button>
                        </Link>
-                   <Link to='/game'>
                    <button onClick={() => this.props.newGame(this.props.grid)}
                            className="exit_game">
                        New Game
                    </button>
-                   </Link>
                </div>
                 <div className='mid_col_game'>
                    <GameStatus
@@ -167,7 +165,8 @@ class Game extends Component {
                         timeUp={this.props.timeUp}
                         xTurn={this.props.xTurn}
                         gameEnd={endOfGame}
-                        firstMove={this.props.stepNumber===0}/>
+                        firstMove={this.props.stepNumber===0}
+                        timeTraveled={this.props.timeTraveled} />
                     <Board
                         grid={this.props.grid}
                         cells={this.props.currentBoard}
@@ -201,6 +200,7 @@ const mapStateToProps = (state) => ({
     currentBoard: state.game.currentBoard,
     xTurn: state.game.xTurn,
     stepNumber: state.game.stepNumber,
+    timeTraveled: state.game.timeTraveled,
     showHistory: state.game.showHistory,
     endOfGame: state.game.endOfGame
 });
