@@ -1,6 +1,6 @@
 # Amiry's  Tic-Tac-Toe!
 
-Deployed at: https://amiryy.github.io/my-tic-tac-toe-react-redux
+Deployed at: https://amiryy.github.io/tic-tac-toe-react-redux
 
 # Features:
 - 3x3 and 4x4 grids
