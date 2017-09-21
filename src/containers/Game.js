@@ -24,7 +24,8 @@ class Game extends Component {
     playerMove (i) {
         const history = this.props.history.slice(0, this.props.stepNumber + 1);
         const board = this.props.currentBoard.slice();
-        if (this.indicateVictory(board).winner || board[i]) {
+        if (this.indicateVictory(board).winner || board[i]
+            || (this.props.stepNumber === this.props.grid)) {
             console.log('move blocked: ' + i);
             return;
         }
