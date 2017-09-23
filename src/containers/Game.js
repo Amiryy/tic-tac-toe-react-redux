@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 import {
     playerMove, timeTravel, toggleHistory,
-    timeUp, newGame, endGame
+    timeUp, newGame, endGame, turnChangeAnimation
 } from "../actions/gameActions";
 import { getBestMove } from '../actions/aiActions';
 
@@ -59,13 +59,16 @@ class Game extends Component {
     };
 
     movesList (history) {
+        const winner = this.indicateVictory(this.props.currentBoard.slice()).winner;
+        const gameStatus = this.gameStatus(winner);
+        const endOfGame = gameStatus.endOfGame;
         return history.map((step, move) => {
             const player = move % 2 ? ' - X' : ' - O';
             const description = move ?
                 'Move #' + move + player : 'Game Start';
             return (
                 <li key={move}>
-                    <button onClick={() =>  this.props.timeTravel(move)}
+                    <button onClick={() =>  this.props.timeTravel(move, endOfGame)}
                             className={(this.props.stepNumber===move) ?
                                 'current_step' : ''}>
                         {description}
@@ -107,6 +110,9 @@ class Game extends Component {
         const { playerStarts, versus } = nextProps.gameSettings;
         const winner = this.indicateVictory(nextProps.currentBoard.slice()).winner;
         const endOfGame = nextProps.endOfGame;
+        if(xTurn !== this.props.xTurn || endOfGame !== this.props.endOfGame){
+            turnChangeAnimation();
+        }
         if(nextProps.stepNumber || (nextProps.stepNumber === 0)) {
             if (!endOfGame && !playerStarts && xTurn && versus === 'A') {
                  // if AI plays first (X)

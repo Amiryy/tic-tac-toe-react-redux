@@ -22,7 +22,32 @@ const streaks = {
         [3, 6, 9, 12]
     ]
 };
-
+const indicateVictory = (cells, grid) => {
+    if(grid === 9) {
+        const possibleStreaks = streaks.nine;
+        for (let i = 0; i < possibleStreaks.length; i++) {
+            const [a, b, c] = possibleStreaks[i];
+            if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+                return {
+                    winner: cells[a], winningRow: [a, b, c]
+                }
+            }
+        }
+    } else if (grid === 16) {
+        const possibleStreaks = streaks.sixteen;
+        for (let i = 0; i < possibleStreaks.length; i++) {
+            const [a, b, c, d] = possibleStreaks[i];
+            if (cells[a] && cells[a] === cells[b] && cells[a]
+                === cells[c] && cells[a] === cells[d]) {
+                return {
+                    winner: cells[a], winningRow: [a, b, c, d]
+                }
+            }
+        }
+    }
+    return {
+        winner: null, winningRow: [null, null, null] };
+};
 const getGameScore = (winner, movesCount) => {
     let score;
     if (winner === 'X') {
@@ -73,17 +98,17 @@ const minMax = (board, xTurn, maxDepth, depth = 0) => {
         board: board,
         xTurn: xTurn
     };
-    const victory = indicateVictory(board, maxDepth).winner;
+    const winner = indicateVictory(gameState.board, maxDepth).winner;
     let bestScore;
-    if(victory || depth >= maxDepth) {
-        return getGameScore(victory, depth);
+    if(winner || depth === maxDepth) {
+        return getGameScore(winner, depth);
     }
     if (!xTurn) {
         bestScore = -9999;
-        let moves = getAvailableMoves(board);
+        let moves = getAvailableMoves(gameState.board);
         moves.forEach (move => {
             let newScore;
-            if(possibleStreak(maxDepth, board, move, 'O')){
+            if(possibleStreak(maxDepth, gameState.board, move, 'O')){
                 board[move] = 'O';
                 gameState = {
                     board: board,
@@ -94,20 +119,22 @@ const minMax = (board, xTurn, maxDepth, depth = 0) => {
                     gameState.xTurn,
                     maxDepth,
                     ++depth);
+                console.log('depth: ' + depth);
+                console.log(move+"'s score: " + newScore)
             } else {
                 newScore = 0;
             }
             if (newScore > bestScore) {
-                bestScore = newScore
+                bestScore = newScore;
             }
         })
     }
     if (xTurn) {
         bestScore = 9999;
-        let moves = getAvailableMoves(board);
+        let moves = getAvailableMoves( gameState.board);
         moves.forEach (move => {
             let newScore;
-            if(possibleStreak(maxDepth, board, move, 'X')){
+            if(possibleStreak(maxDepth,  gameState.board, move, 'X')){
                 board[move] = 'X';
                 gameState = {
                     board: board,
@@ -122,7 +149,7 @@ const minMax = (board, xTurn, maxDepth, depth = 0) => {
                 newScore = 0;
             }
             if (newScore < bestScore) {
-                bestScore = newScore
+                bestScore = newScore;
             }
         })
     }
@@ -153,39 +180,14 @@ export const getBestMove = (board, grid, xTurn) => {
       let newScore = minMax(gameState.board, gameState.xTurn, grid);
       if (newScore > bestScore) {
           bestScore = newScore;
-          bestMove = move
+          bestMove = move;
+          console.log(move+"'s best score: "+bestScore);
       }
   });
-  console.log('best move: ' + bestMove);
+  console.log('best move: ' + bestMove + ' score: ' + bestScore);
   return bestMove
 };
 
-const indicateVictory = (cells, grid) => {
-    if(grid === 9) {
-        const possibleStreaks = streaks.nine;
-        for (let i = 0; i < possibleStreaks.length; i++) {
-            const [a, b, c] = possibleStreaks[i];
-            if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
-                return {
-                    winner: cells[a], winningRow: [a, b, c]
-                }
-            }
-        }
-    } else if (grid === 16) {
-        const possibleStreaks = streaks.sixteen;
-        for (let i = 0; i < possibleStreaks.length; i++) {
-            const [a, b, c, d] = possibleStreaks[i];
-            if (cells[a] && cells[a] === cells[b] && cells[a]
-                === cells[c] && cells[a] === cells[d]) {
-                return {
-                    winner: cells[a], winningRow: [a, b, c, d]
-                }
-            }
-        }
-    }
-    return {
-        winner: null, winningRow: [null, null, null] };
-};
 /*export const aiComputations = (board, grid, xTurn) => {
     //minMax(board, xTurn, grid);
     //possibleStreak(grid, board, 0, 'O');

@@ -101,7 +101,8 @@ export const gameReducer = (state = initialState, action) => {
                 stepNumber: action.move,
                 currentBoard: state.history[action.move].cells,
                 xTurn: !(action.move % 2),
-                timeTraveled: true
+                timeTraveled: true,
+                endOfGame: action.endOfGame
             };
             break;
         default:

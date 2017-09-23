@@ -15,7 +15,7 @@ class Settings extends Component {
                 <hr />
                 <div className='left_col_settings'>
                     <Link to='/'>
-                        <button className="exit_game">Main Menu</button>
+                        <button className="exit_game">Back</button>
                     </Link>
                 </div>
                 <div className='mid_col_settings'>

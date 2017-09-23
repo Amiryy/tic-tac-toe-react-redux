@@ -25,10 +25,11 @@ export const toggleHistory = () => {
         type: 'TOGGLE_HISTORY'
     }
 };
-export const timeTravel = (move) => {
+export const timeTravel = (move, end) => {
     return {
         type: 'TIME_TRAVEL',
-        move: move
+        move: move,
+        endOfGame: end
     }
 };
 
@@ -41,4 +42,13 @@ export const setGrid = (grid) => {
     return {
         type: 'SET_GRID_9'
     }
+};
+
+// an Animation to emphasize a turn change.
+export const turnChangeAnimation = () => {
+    let gameStatus = document.getElementById('status');
+    gameStatus.className = 'turnChange';
+    setTimeout(() => {
+        gameStatus.className = '';
+    }, 250)
 };

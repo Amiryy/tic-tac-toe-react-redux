@@ -17,7 +17,7 @@ const GameStatus = (props) => {
                     firstMove={props.firstMove}
                     timeTraveled={props.timeTraveled} />
             </div>
-            <p>{props.status}</p>
+            <p id='status'>{props.status}</p>
         </div>
     );
 };

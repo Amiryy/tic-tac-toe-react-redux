@@ -22,12 +22,8 @@
   }
 }
 @keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 @keyframes wiggle {
   0% { transform: skewX(9deg); }
@@ -144,7 +140,7 @@ a:active {
   animation: slide-in 0.5s forwards;
 }
 .hidden {
-  animation: slide-out 0.5s forwards;
+  animation: slide-out 0.2s forwards;
 }
 .hr_settings{
   display: none;
@@ -245,9 +241,14 @@ button:focus {
   box-shadow: 1px 1px 1px 1px #888888 inset;
   color: #009292;
 }
-
+#status {
+  transform: scale(1);
+  transition: 0.2s ease-in;
+}
+#status.turnChange {
+  transform: scale(1.3);
+}
 .game_status {
-  animation: fade-in 0.5s forwards;
   width: 75%;
   margin: 0 auto;
   font-size: 2rem;
@@ -291,7 +292,14 @@ li{
   box-shadow: 1px 1px 1px 1px #888888 inset;
   color: #00c8c8;
 }
-
+.list {
+  max-height: 500px;
+  overflow-y: scroll;
+}
+.list_hidden{
+  max-height: 500px;
+  overflow-y: hidden;
+}
 .list button {
   animation: slide-in 0.75s forwards;
   background-color: transparent;
@@ -331,7 +339,7 @@ li{
     margin: 1% 0 1% 0;
   }
   .react-progress-bar {
-    top: 25%;
+    top: 27%;
     width: 100%;
     margin: 0 auto;
     right: 0;
@@ -340,7 +348,9 @@ li{
   .list {
     z-index: 1001;
     position: fixed;
-    top: 30%;
+    top: 25%;
+    height: 45%;
+    overflow-y: scroll;
     width: 100%;
     background-color: rgba(210, 210, 210, 0.95);
     border-radius: 10px;
@@ -349,11 +359,18 @@ li{
   .list ul{
     color: white;
   }
+  .list button {
+    margin: 0 auto;
+  }
+  .list button:hover {
+    box-shadow: none;
+  }
   .show_history_closed:hover{
     box-shadow: none;
     color: inherit;
   }
   .show_history_active{
+    z-index: 1002;
     box-shadow: 1px 1px 1px 1px #888888 inset;
     color: #00c8c8;
   }
@@ -366,6 +383,18 @@ li{
   }
   .set_pace:hover{
     color:inherit;
+  }
+  .board_9 {
+    grid-template-columns: repeat(3, 6rem);
+    grid-template-rows: repeat(3, 6rem);
+  }
+  .board_16 {
+    grid-template-columns: repeat(4, 4rem);
+    grid-template-rows: repeat(4, 4rem);
+  }
+  .cell, .cell_filled {
+    padding: 0;
+    font-size: 2rem;
   }
   .cell_filled:active {
     animation: none;
