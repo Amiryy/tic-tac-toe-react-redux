@@ -22,6 +22,8 @@ const streaks = {
         [3, 6, 9, 12]
     ]
 };
+let shouldLog = false;
+
 const indicateVictory = (cells, grid) => {
     if(grid === 9) {
         const possibleStreaks = streaks.nine;
@@ -83,12 +85,14 @@ const minMax = (board, xTurn, maxDepth, depth = 0) => {
     }
     let moves = getAvailableMoves(board);
     moves.forEach (move => {
-            board[move] = xTurn ? 'X' : 'O';
-            score += minMax(
-                board,
-                !xTurn,
-                maxDepth,
-                ++depth);
+        let newBoard = board.slice();
+        newBoard[move] = xTurn ? 'X' : 'O';
+        let newScore = minMax(
+            newBoard,
+            !xTurn,
+            maxDepth,
+            ++depth);
+        score += newScore
     })
     return score;
 };
@@ -99,20 +103,23 @@ export const getBestMove = (board, grid, xTurn) => {
   console.log('available moves: ' + moves.length);
   console.log(moves);
   moves.forEach(move => {
-      board[move] = xTurn ? 'X' : 'O';
-      let newScore = minMax(board, xTurn, grid);
-      if (bestScore === null || newScore > bestScore) {
+    let newBoard = board.slice();
+    newBoard[move] = xTurn ? 'X' : 'O';
+    let newScore = minMax(newBoard, !xTurn, grid);
+    console.log(move+"'s score: "+newScore);
+    if (xTurn){
+        if (bestScore === null || newScore < bestScore) {
           bestScore = newScore;
           bestMove = move;
-          console.log(move+"'s best score: "+bestScore);
-      }
+        }
+
+    } else {
+        if (bestScore === null || newScore > bestScore) {
+          bestScore = newScore;
+          bestMove = move;
+        }
+    }
   });
   console.log('best move: ' + bestMove + ' score: ' + bestScore);
   return bestMove
 };
-
-/*export const aiComputations = (board, grid, xTurn) => {
-    //minMax(board, xTurn, grid);
-    //possibleStreak(grid, board, 0, 'O');
-    //getBestMove(board, grid, xTurn)
-};*/
