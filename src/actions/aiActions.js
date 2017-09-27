@@ -75,110 +75,33 @@ const getRowContent = (board, row) => {
         return contents
     }, [])
 };
-const possibleStreak = (grid, board, movePos, player) => {
-    // returns whether a move can make a winning streak
-    // by distinguishing the rows that contain the move location
-    // and indicating whether these rows are free of enemy marks.
-    // returns true/false
-    const possibleStreaks = (grid === 9) ? streaks.nine : streaks.sixteen;
-    const candidateRows = possibleStreaks.filter((candidate) => {
-        const candidates = candidate.filter(cell =>
-            cell === movePos ).length > 0;
-        if (candidates) {
-            const opponent = player === 'X' ? 'O' : 'X';
-            const rowContent = getRowContent(board, candidate).join('');
-            return !(rowContent.indexOf(opponent) > -1);
-        }
-        return candidates;
-    });
-    return candidateRows.length > 0
-};
 const minMax = (board, xTurn, maxDepth, depth = 0) => {
-    let gameState = {
-        board: board,
-        xTurn: xTurn
-    };
-    const winner = indicateVictory(gameState.board, maxDepth).winner;
-    let bestScore;
+    const winner = indicateVictory(board, maxDepth).winner;
+    let score = 0;
     if(winner || depth === maxDepth) {
         return getGameScore(winner, depth);
     }
-    if (!xTurn) {
-        bestScore = -9999;
-        let moves = getAvailableMoves(gameState.board);
-        moves.forEach (move => {
-            let newScore;
-            if(possibleStreak(maxDepth, gameState.board, move, 'O')){
-                board[move] = 'O';
-                gameState = {
-                    board: board,
-                    xTurn: xTurn
-                };
-                newScore = minMax(
-                    gameState.board,
-                    gameState.xTurn,
-                    maxDepth,
-                    ++depth);
-                console.log('depth: ' + depth);
-                console.log(move+"'s score: " + newScore)
-            } else {
-                newScore = 0;
-            }
-            if (newScore > bestScore) {
-                bestScore = newScore;
-            }
-        })
-    }
-    if (xTurn) {
-        bestScore = 9999;
-        let moves = getAvailableMoves( gameState.board);
-        moves.forEach (move => {
-            let newScore;
-            if(possibleStreak(maxDepth,  gameState.board, move, 'X')){
-                board[move] = 'X';
-                gameState = {
-                    board: board,
-                    xTurn: xTurn
-                };
-                newScore = minMax(
-                    gameState.board,
-                    gameState.xTurn,
-                    maxDepth,
-                    ++depth);
-            } else {
-                newScore = 0;
-            }
-            if (newScore < bestScore) {
-                bestScore = newScore;
-            }
-        })
-    }
-    return bestScore;
+    let moves = getAvailableMoves(board);
+    moves.forEach (move => {
+            board[move] = xTurn ? 'X' : 'O';
+            score += minMax(
+                board,
+                !xTurn,
+                maxDepth,
+                ++depth);
+    })
+    return score;
 };
 export const getBestMove = (board, grid, xTurn) => {
-  let bestScore = -9999;
+  let bestScore = null;
   let bestMove = null;
-  const openingMoves = grid === 9 ? [0, 2, 3, 4, 5] : [0, 3, 6, 12, 15];
-  let gameState = {
-      board: board,
-      xTurn: xTurn
-  };
-  let moves = getAvailableMoves(gameState.board);
-  if(moves.length === grid){
-      const randomOpener = Math.floor(Math.random() * 5);
-      console.log('opener: ' + openingMoves[randomOpener]);
-     return openingMoves[randomOpener]
-  }
+  let moves = getAvailableMoves(board);
   console.log('available moves: ' + moves.length);
   console.log(moves);
   moves.forEach(move => {
       board[move] = xTurn ? 'X' : 'O';
-      gameState = {
-          board: board,
-          xTurn: xTurn
-      };
-      let newScore = minMax(gameState.board, gameState.xTurn, grid);
-      if (newScore > bestScore) {
+      let newScore = minMax(board, xTurn, grid);
+      if (bestScore === null || newScore > bestScore) {
           bestScore = newScore;
           bestMove = move;
           console.log(move+"'s best score: "+bestScore);
