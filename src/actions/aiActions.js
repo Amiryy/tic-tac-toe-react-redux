@@ -22,7 +22,6 @@ const streaks = {
         [3, 6, 9, 12]
     ]
 };
-let shouldLog = false;
 
 const indicateVictory = (cells, grid) => {
     if(grid === 9) {
@@ -52,10 +51,12 @@ const indicateVictory = (cells, grid) => {
 };
 const getGameScore = (winner, movesCount) => {
     let score;
+    let urgency = movesCount === 0 ? -20 : movesCount;
+    // if its an immediate win return highest score always.
     if (winner === 'X') {
-        score = -20 + movesCount;
+        score = -20 + urgency;
     } else if (winner === 'O') {
-        score = 20 - movesCount;
+        score = 20 - urgency;
     } else {
         score = 0
     }
@@ -71,12 +72,6 @@ const getAvailableMoves = (board) => {
     });
     return available
 };
-const getRowContent = (board, row) => {
-    return row.reduce((contents, cell) => {
-        contents.push(board[cell]);
-        return contents
-    }, [])
-};
 const minMax = (board, xTurn, maxDepth, depth = 0) => {
     const winner = indicateVictory(board, maxDepth).winner;
     let score = 0;
@@ -87,19 +82,28 @@ const minMax = (board, xTurn, maxDepth, depth = 0) => {
     moves.forEach (move => {
         let newBoard = board.slice();
         newBoard[move] = xTurn ? 'X' : 'O';
-        let newScore = minMax(
+        let moveScore = minMax(
             newBoard,
             !xTurn,
             maxDepth,
             ++depth);
-        score += newScore
-    })
+        if(xTurn){
+            if (score === 0 || moveScore < score) {
+                score = moveScore;
+            }
+        } else {
+            if (score === 0 || moveScore > score) {
+               score = moveScore;
+            }
+        }
+    });
     return score;
 };
+
 export const getBestMove = (board, grid, xTurn) => {
   let bestScore = null;
   let bestMove = null;
-  let moves = getAvailableMoves(board);
+  const moves = getAvailableMoves(board);
   console.log('available moves: ' + moves.length);
   console.log(moves);
   moves.forEach(move => {
@@ -122,4 +126,29 @@ export const getBestMove = (board, grid, xTurn) => {
   });
   console.log('best move: ' + bestMove + ' score: ' + bestScore);
   return bestMove
+};
+
+export const aiMove = (bestMove, board, difficulty) => { // AI will make his move based on the difficulty level.
+    const moves = getAvailableMoves(board);
+    const randomChoice = moves[Math.floor(Math.random() * moves.length)];
+    let choice;
+    if (difficulty === 'novice') {
+        if (Math.random() * 100 <= 60) {
+            choice = bestMove;
+        } else {
+            choice = randomChoice;
+        }
+        console.log('Novice Move: ' + choice);
+    } else if (difficulty === 'easy') {
+        if (Math.random() * 100 <= 20) {
+            choice = bestMove;
+        } else {
+            choice = randomChoice;
+        }
+        console.log('Easy Move: ' + choice);
+    } else if (difficulty === 'expert') {
+        choice = bestMove;
+        console.log('expert Move: ' + choice);
+    }
+    return choice;
 };

@@ -7,7 +7,7 @@ import {
     playerMove, timeTravel, toggleHistory,
     timeUp, newGame, endGame, turnChangeAnimation
 } from "../actions/gameActions";
-import { getBestMove } from '../actions/aiActions';
+import { getBestMove, aiMove } from '../actions/aiActions';
 
 import Board from '../components/Board';
 import GameStatus from '../components/GameStatus';
@@ -26,7 +26,6 @@ class Game extends Component {
         const board = this.props.currentBoard.slice();
         if (this.indicateVictory(board).winner || board[i]
             || (this.props.stepNumber === this.props.grid)) {
-            console.log('move blocked: ' + i);
             return;
         }
         board[i] = this.props.xTurn ? 'X' : 'O';
@@ -93,12 +92,14 @@ class Game extends Component {
     }
 
     componentWillMount () {
+        const difficulty = this.props.difficulty;
         const xTurn = this.props.xTurn;
         const { playerStarts, versus } = this.props.gameSettings;
         const board = this.props.currentBoard.slice();
         if (this.props.stepNumber === 0) {
             if (!playerStarts && xTurn && versus === 'A') {
-                const move = getBestMove(board, this.props.grid, xTurn);
+                const bestMove = getBestMove(board, this.props.grid, xTurn);
+                const move = aiMove(bestMove, board, difficulty);
                 setTimeout(() => {
                     this.playerMove(move)
                 }, 500)
@@ -106,9 +107,11 @@ class Game extends Component {
         }
     }
     componentWillReceiveProps (nextProps) {
+        const difficulty = this.props.difficulty;
         const xTurn = nextProps.xTurn;
         const { playerStarts, versus } = nextProps.gameSettings;
         const winner = this.indicateVictory(nextProps.currentBoard.slice()).winner;
+        const board = nextProps.currentBoard.slice()
         const endOfGame = nextProps.endOfGame;
         if(xTurn !== this.props.xTurn || endOfGame !== this.props.endOfGame){
             turnChangeAnimation();
@@ -116,20 +119,17 @@ class Game extends Component {
         if(nextProps.stepNumber || (nextProps.stepNumber === 0)) {
             if (!endOfGame && !playerStarts && xTurn && versus === 'A') {
                  // if AI plays first (X)
-                const move = getBestMove(
-                    nextProps.currentBoard.slice(),
-                    this.props.grid, xTurn
-                );
+                const bestMove = getBestMove(board, this.props.grid, xTurn);
+                const move = aiMove(bestMove, board, difficulty);
+                // AI will make his move based on the difficulty level.
                 setTimeout(() => {
                     this.playerMove(move)
                 }, 500)
             }
             if (!endOfGame && playerStarts && !xTurn && versus === 'A') {
                  // if AI plays second (O)
-                const move = getBestMove(
-                    nextProps.currentBoard.slice(),
-                    this.props.grid, xTurn
-                );
+                const bestMove = getBestMove(board, this.props.grid, xTurn);
+                const move = aiMove(bestMove, board, difficulty);
                 setTimeout(() => {
                     this.playerMove(move)
                 }, 500)
@@ -197,6 +197,7 @@ class Game extends Component {
 
 const mapStateToProps = (state) => ({
     gameSettings: state.settings,
+    difficulty: state.settings.difficulty,
     mode: state.settings.mode,
     pace: state.settings.pace,
     versus: state.settings.versus,

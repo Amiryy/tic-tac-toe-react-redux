@@ -8,7 +8,7 @@ Deployed at: https://amiryy.github.io/tic-tac-toe-react-redux
 - Current step highlighted
 - New Game button
 - Winning line highlight
-- Different AI difficulties - Under Construction
+- Play versus AI in different difficulties - Under Construction
 - Timed mode
 - Interactive interface and settings
 - Beautiful UI
@@ -19,6 +19,7 @@ Deployed at: https://amiryy.github.io/tic-tac-toe-react-redux
 # Screenshot:
 ![in-game](./src/styles/media/in-game.png?raw=true "In-Game")
 
+#
 
 
 
