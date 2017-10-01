@@ -51,7 +51,7 @@ const indicateVictory = (cells, grid) => {
 };
 const getGameScore = (winner, movesCount) => {
     let score;
-    let urgency = movesCount === 0 ? -20 : movesCount;
+    let urgency = movesCount === 0 ? -80 : movesCount;
     // if its an immediate win return highest score always.
     if (winner === 'X') {
         score = -20 + urgency;
@@ -72,27 +72,27 @@ const getAvailableMoves = (board) => {
     });
     return available
 };
-const minMax = (board, xTurn, maxDepth, depth = 0) => {
-    const winner = indicateVictory(board, maxDepth).winner;
-    let score = 0;
-    if(winner || depth === maxDepth) {
+const minMax = (board, xTurn, grid, depth = 0) => {
+    const winner = indicateVictory(board, grid).winner;
+    let score = null;
+    let moves = getAvailableMoves(board);
+    if(winner || moves.length === 0) {
         return getGameScore(winner, depth);
     }
-    let moves = getAvailableMoves(board);
     moves.forEach (move => {
         let newBoard = board.slice();
         newBoard[move] = xTurn ? 'X' : 'O';
         let moveScore = minMax(
             newBoard,
             !xTurn,
-            maxDepth,
+            grid,
             ++depth);
         if(xTurn){
-            if (score === 0 || moveScore < score) {
+            if (moveScore < score || score === null) {
                 score = moveScore;
             }
         } else {
-            if (score === 0 || moveScore > score) {
+            if (moveScore > score || score === null) {
                score = moveScore;
             }
         }
@@ -106,9 +106,9 @@ export const getBestMove = (board, grid, xTurn) => {
   const moves = getAvailableMoves(board);
   console.log('available moves: ' + moves.length);
   console.log(moves);
-  if(moves.length <= 9) {
-      if (moves.length === 8 && board[4] === null){
-          return bestMove = 4;
+  if(moves.length <= 9) { //Recursive analysis is applied for 9 or less options.
+      if (moves.length === 8 && !board[4]){
+          return bestMove = 4
       }
       moves.forEach(move => {
           let newBoard = board.slice();
@@ -116,27 +116,29 @@ export const getBestMove = (board, grid, xTurn) => {
           let newScore = minMax(newBoard, !xTurn, grid);
           console.log(move + "'s score: " + newScore);
           if (xTurn) {
-              if (bestScore === null || newScore < bestScore) {
+              if (newScore < bestScore || bestScore === null) {
                   bestScore = newScore;
                   bestMove = move;
               }
 
           } else {
-              if (bestScore === null || newScore > bestScore) {
+              if (newScore > bestScore || bestScore === null) {
                   bestScore = newScore;
                   bestMove = move;
               }
           }
       });
   }
-  else { // for 4x4 grids I implemented some automatic reactions to reduce system overload.
+  else { /* for 4x4 grids I implemented simple logic for the first few moves to reduce system overload.
+        Recursive analysis of over 9 available moves will decrease performance and might even cause the game to crash.
+        */
       const enemy = xTurn ? 'O' : 'X';
       const self = xTurn ? 'X' : 'O';
       let priority = -1;
       if (moves.length === 16) {
           const openers = [0, 3, 12, 15];
           openers.forEach (opener => {
-              if(board[opener] === null){
+              if(!board[opener]){
                 bestMove = opener;
               }
           });
@@ -150,14 +152,14 @@ export const getBestMove = (board, grid, xTurn) => {
           }).length;
           if (threat > advantage && threat > priority) {
                streak.forEach (cell => {
-                   if (board[cell] === null){
+                   if (!board[cell]){
                        bestMove = cell;
                    }
                    priority = threat;
                })
           } else if (advantage > threat  && advantage > priority) {
               streak.forEach (cell => {
-                  if (board[cell] === null){
+                  if (!board[cell]){
                       bestMove = cell;
                   }
                   priority = advantage;

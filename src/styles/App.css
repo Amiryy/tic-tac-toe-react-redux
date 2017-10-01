@@ -152,6 +152,7 @@ table {
 }
 td {
  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .game_page{
@@ -176,15 +177,15 @@ td {
 .board_9 {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(3, 7rem);
-  grid-template-rows: repeat(3, 7rem);
+  grid-template-columns: repeat(3, 9rem);
+  grid-template-rows: repeat(3, 9rem);
 }
 
 .board_16 {
   display: grid;
   justify-content: center;
-  grid-template-columns: repeat(4, 5rem);
-  grid-template-rows: repeat(4, 5rem);
+  grid-template-columns: repeat(4, 7rem);
+  grid-template-rows: repeat(4, 7rem);
 }
 .cell {
   color: transparent;
@@ -196,7 +197,7 @@ td {
           box-shadow 0.5s,
           background-color 0.5s;
   border-radius: 5px;
-  font-size: 3.5rem;
+  font-size: 4rem;
 }
 .cell_filled {
   border-radius: 5px;
@@ -204,7 +205,7 @@ td {
   animation: fade-in 1s forwards;
   background: transparent;
   border: 1px solid #222222;
-  font-size: 3.5rem;
+  font-size: 4rem;
 }
 .cell_filled:active {
   animation: wiggle 0.33s forwards;
@@ -377,6 +378,9 @@ li{
   .exit_game:hover{
     box-shadow: none;
     color: inherit;
+  }
+  td {
+    font-size: 1.2rem;
   }
   .set_pace {
     margin: 5%;

@@ -45,14 +45,14 @@ const SettingsTable = (props) => {
                         props.setPace((props.pace===2) ?
                             (props.pace) : (props.pace - 1)) }
                             className='set_pace'>
-                        -
+                        {props.pace === 2 ? '' : '-'}
                     </button>
                     {props.pace} sec
                     <button onClick={()=>
                         props.setPace((props.pace===5) ?
                             (props.pace) : (props.pace + 1)) }
                             className='set_pace'>
-                        +
+                        {props.pace === 5 ? '' : '+'}
                     </button>
                     <hr className='hr_settings' />
                 </td>

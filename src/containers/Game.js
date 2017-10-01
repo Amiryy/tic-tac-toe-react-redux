@@ -21,14 +21,14 @@ class Game extends Component {
         this.movesList = this.movesList.bind(this);
         this.gameStatus = this.gameStatus.bind(this);
     }
-    playerMove (i) {
+    playerMove (move) {
         const history = this.props.history.slice(0, this.props.stepNumber + 1);
         const board = this.props.currentBoard.slice();
-        if (this.indicateVictory(board).winner || board[i]
+        if (this.indicateVictory(board).winner || board[move]
             || (this.props.stepNumber === this.props.grid)) {
             return;
         }
-        board[i] = this.props.xTurn ? 'X' : 'O';
+        board[move] = this.props.xTurn ? 'X' : 'O';
         this.props.playerMove(history, board); //Redux action
     }
     indicateVictory(cells) {
@@ -92,9 +92,8 @@ class Game extends Component {
     }
 
     componentWillMount () {
-        const difficulty = this.props.difficulty;
         const xTurn = this.props.xTurn;
-        const { playerStarts, versus } = this.props.gameSettings;
+        const { playerStarts, versus, difficulty } = this.props.gameSettings;
         const board = this.props.currentBoard.slice();
         if (this.props.stepNumber === 0) {
             if (!playerStarts && xTurn && versus === 'A') {
@@ -102,7 +101,7 @@ class Game extends Component {
                 const move = aiMove(bestMove, board, difficulty);
                 setTimeout(() => {
                     this.playerMove(move)
-                }, 500)
+                }, 750)
             }
         }
     }
@@ -123,7 +122,7 @@ class Game extends Component {
                 // AI will make his move based on the difficulty level.
                 setTimeout(() => {
                     this.playerMove(move)
-                }, 500)
+                }, 750)
             }
             if (!endOfGame && playerStarts && !xTurn && versus === 'A') {
                  // if AI plays second (O)
@@ -131,7 +130,7 @@ class Game extends Component {
                 const move = aiMove(bestMove, board, difficulty);
                 setTimeout(() => {
                     this.playerMove(move)
-                }, 500)
+                }, 750)
             }
         }
         if (this.gameStatus(winner).endGame) {
