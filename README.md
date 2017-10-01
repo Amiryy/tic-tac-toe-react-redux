@@ -8,7 +8,7 @@ Deployed at: https://amiryy.github.io/tic-tac-toe-react-redux
 - Current step highlighted
 - New Game button
 - Winning line highlight
-- Play versus AI in different difficulties - Under Construction
+- Play versus AI in different difficulties - *lets see if you can beat **Expert!***
 - Timed mode
 - Interactive interface and settings
 - Beautiful UI

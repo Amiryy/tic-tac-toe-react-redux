@@ -2,7 +2,7 @@
 const initialState =
     {
         versus: 'A',
-        difficulty:'easy',
+        difficulty: 'expert',
         playerStarts: true,
         mode: 'normal',
         pace: null

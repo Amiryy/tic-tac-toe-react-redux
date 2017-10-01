@@ -106,24 +106,66 @@ export const getBestMove = (board, grid, xTurn) => {
   const moves = getAvailableMoves(board);
   console.log('available moves: ' + moves.length);
   console.log(moves);
-  moves.forEach(move => {
-    let newBoard = board.slice();
-    newBoard[move] = xTurn ? 'X' : 'O';
-    let newScore = minMax(newBoard, !xTurn, grid);
-    console.log(move+"'s score: "+newScore);
-    if (xTurn){
-        if (bestScore === null || newScore < bestScore) {
-          bestScore = newScore;
-          bestMove = move;
-        }
+  if(moves.length <= 9) {
+      if (moves.length === 8 && board[4] === null){
+          return bestMove = 4;
+      }
+      moves.forEach(move => {
+          let newBoard = board.slice();
+          newBoard[move] = xTurn ? 'X' : 'O';
+          let newScore = minMax(newBoard, !xTurn, grid);
+          console.log(move + "'s score: " + newScore);
+          if (xTurn) {
+              if (bestScore === null || newScore < bestScore) {
+                  bestScore = newScore;
+                  bestMove = move;
+              }
 
-    } else {
-        if (bestScore === null || newScore > bestScore) {
-          bestScore = newScore;
-          bestMove = move;
-        }
-    }
-  });
+          } else {
+              if (bestScore === null || newScore > bestScore) {
+                  bestScore = newScore;
+                  bestMove = move;
+              }
+          }
+      });
+  }
+  else { // for 4x4 grids I implemented some automatic reactions to reduce system overload.
+      const enemy = xTurn ? 'O' : 'X';
+      const self = xTurn ? 'X' : 'O';
+      let priority = -1;
+      if (moves.length === 16) {
+          const openers = [0, 3, 12, 15];
+          openers.forEach (opener => {
+              if(board[opener] === null){
+                bestMove = opener;
+              }
+          });
+      }
+      streaks.sixteen.forEach ((streak) => {
+          let threat = streak.filter( cell => {
+             return board[cell] === enemy;
+          }).length;
+          let advantage = streak.filter ( cell => {
+             return board[cell] === self
+          }).length;
+          if (threat > advantage && threat > priority) {
+               streak.forEach (cell => {
+                   if (board[cell] === null){
+                       bestMove = cell;
+                   }
+                   priority = threat;
+               })
+          } else if (advantage > threat  && advantage > priority) {
+              streak.forEach (cell => {
+                  if (board[cell] === null){
+                      bestMove = cell;
+                  }
+                  priority = advantage;
+              });
+          }
+
+      });
+  }
   console.log('best move: ' + bestMove + ' score: ' + bestScore);
   return bestMove
 };

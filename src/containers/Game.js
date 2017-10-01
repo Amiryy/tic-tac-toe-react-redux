@@ -107,11 +107,10 @@ class Game extends Component {
         }
     }
     componentWillReceiveProps (nextProps) {
-        const difficulty = this.props.difficulty;
         const xTurn = nextProps.xTurn;
-        const { playerStarts, versus } = nextProps.gameSettings;
+        const { playerStarts, versus, difficulty } = nextProps.gameSettings;
         const winner = this.indicateVictory(nextProps.currentBoard.slice()).winner;
-        const board = nextProps.currentBoard.slice()
+        const board = nextProps.currentBoard.slice();
         const endOfGame = nextProps.endOfGame;
         if(xTurn !== this.props.xTurn || endOfGame !== this.props.endOfGame){
             turnChangeAnimation();
@@ -194,10 +193,8 @@ class Game extends Component {
         )
     }
 }
-
 const mapStateToProps = (state) => ({
     gameSettings: state.settings,
-    difficulty: state.settings.difficulty,
     mode: state.settings.mode,
     pace: state.settings.pace,
     versus: state.settings.versus,
