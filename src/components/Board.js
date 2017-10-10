@@ -14,12 +14,8 @@ const Board = (props) => {
     };
     let checkAvailability = () => {
         if(!props.endGame && (props.versus==='A')) {
-            if ((props.playerStarts && props.xTurn)
-                || (!props.playerStarts && !props.xTurn)) {
-                return true
-            } else {
-                return false
-            }
+           return ((props.playerStarts && props.xTurn)
+                || (!props.playerStarts && !props.xTurn));
         } else if (!props.endGame && (props.versus==='P')) {
             return true
         }

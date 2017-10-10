@@ -106,7 +106,8 @@ export const getBestMove = (board, grid, xTurn) => {
   const moves = getAvailableMoves(board);
   console.log('available moves: ' + moves.length);
   console.log(moves);
-  if(moves.length <= 9) { //Recursive analysis is applied for 9 or less options.
+  //on 4x4 grid recursive analysis is applied for 8 or less options.
+  if (grid === 9 || moves.length <= 8) {
       if (moves.length === 8 && !board[4]){
           return bestMove = 4
       }
@@ -128,9 +129,12 @@ export const getBestMove = (board, grid, xTurn) => {
               }
           }
       });
-  }
-  else { /* for 4x4 grids I implemented simple logic for the first few moves to reduce system overload.
-        Recursive analysis of over 9 available moves will decrease performance and might even cause the game to crash.
+  } else {
+      /* for 4x4 grids I implemented simple logic for the first few moves to reduce system overload.
+        Recursive analysis of 9 or more available moves will decrease performance and might even cause the game to crash.
+
+        This logic calculates threat and advantage of current board's state, compares the two and prioritises the highest.
+        Then the AI makes his move based on his current priority, if it is to block a threat or create an advantage.
         */
       const enemy = xTurn ? 'O' : 'X';
       const self = xTurn ? 'X' : 'O';

@@ -9,6 +9,6 @@ const Header = ({titleName, author, git}) => {
             <p>{titleName}</p>
         </div>
     )
-}
+};
 
 export default Header;
