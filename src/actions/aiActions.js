@@ -108,7 +108,7 @@ export const getBestMove = (board, grid, xTurn) => {
   console.log(moves);
   //on 4x4 grid recursive analysis is applied for 8 or less options.
   if (grid === 9 || moves.length <= 8) {
-      if (moves.length === 8 && !board[4]){
+      if (grid === 9 && moves.length === 8 && !board[4]){
           return bestMove = 4
       }
       moves.forEach(move => {
@@ -134,10 +134,11 @@ export const getBestMove = (board, grid, xTurn) => {
         Recursive analysis of 9 or more available moves will decrease performance and might even cause the game to crash.
 
         This logic calculates threat and advantage of current board's state, compares the two and prioritises the highest.
-        Then the AI makes his move based on his current priority, if it is to block a threat or create an advantage.
-        */
+        Then the AI makes his move based on his current priority, if it is to block a threat or build up an advantage. */
       const enemy = xTurn ? 'O' : 'X';
       const self = xTurn ? 'X' : 'O';
+      let threat;
+      let advantage;
       let priority = -1;
       if (moves.length === 16) {
           const openers = [0, 3, 12, 15];
@@ -148,29 +149,33 @@ export const getBestMove = (board, grid, xTurn) => {
           });
       }
       streaks.sixteen.forEach ((streak) => {
-          let threat = streak.filter( cell => {
+          threat = streak.filter( cell => {
              return board[cell] === enemy;
           }).length;
-          let advantage = streak.filter ( cell => {
+          advantage = streak.filter ( cell => {
              return board[cell] === self
           }).length;
-          if (threat > advantage && threat > priority) {
-               streak.forEach (cell => {
-                   if (!board[cell]){
-                       bestMove = cell;
-                   }
-                   priority = threat;
-               })
-          } else if (advantage > threat  && advantage > priority) {
-              streak.forEach (cell => {
-                  if (!board[cell]){
-                      bestMove = cell;
-                  }
-                  priority = advantage;
-              });
+          const full = advantage + threat === 4;
+          if (!full) {
+              if (threat > advantage && threat > priority) {
+                  streak.forEach (cell => {
+                      if (!board[cell]){
+                          bestMove = cell;
+                      }
+                      priority = threat;
+                  })
+              } else if (advantage > threat && advantage > priority) {
+                  streak.forEach (cell => {
+                      if (!board[cell]){
+                          bestMove = cell;
+                      }
+                      priority = advantage;
+                  });
+              }
           }
-
+          console.log (streak + ': threat: ' + threat + ' advantage: ' + advantage + ' full: ' + full);
       });
+      console.log('priority: ' + priority);
   }
   console.log('best move: ' + bestMove + ' score: ' + bestScore);
   return bestMove

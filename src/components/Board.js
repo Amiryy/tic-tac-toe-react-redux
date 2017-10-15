@@ -13,11 +13,15 @@ const Board = (props) => {
         return winningRow;
     };
     let checkAvailability = () => {
-        if(!props.endGame && (props.versus==='A')) {
-           return ((props.playerStarts && props.xTurn)
-                || (!props.playerStarts && !props.xTurn));
-        } else if (!props.endGame && (props.versus==='P')) {
-            return true
+        if (props.gameEnd) {
+            return false;
+        } else {
+            if (props.versus === 'A') {
+                return ((props.playerStarts && props.xTurn)
+                    || (!props.playerStarts && !props.xTurn));
+            } else if (props.versus === 'P') {
+                return true
+            }
         }
     };
     return (
