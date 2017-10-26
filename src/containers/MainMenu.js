@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { newGame } from '../actions/gameActions';
 
@@ -10,7 +10,6 @@ class MainMenu extends Component {
         return(
             <div className="main_menu">
                 <h2>Welcome!</h2>
-                <hr />
                 <Link to='/game'>
                        <button onClick={() => this.props.newGame(this.props.grid)}
                             className='menu_button' >
@@ -36,4 +35,4 @@ const matchDispatchToProps = (dispatch) => {
         }, dispatch)
 };
 
-export default connect(mapStateToProps,matchDispatchToProps)(MainMenu);
+export default withRouter(connect(mapStateToProps,matchDispatchToProps)(MainMenu));

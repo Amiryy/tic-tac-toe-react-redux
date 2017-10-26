@@ -8,7 +8,7 @@ import thunk from 'redux-thunk';
 import registerServiceWorker from './registerServiceWorker';
 
 import './styles/index.css';
-import App from './components/App';
+import App from './containers/App';
 import allReducers from './reducers';
 
 const store = createStore(

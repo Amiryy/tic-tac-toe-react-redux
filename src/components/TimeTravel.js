@@ -7,7 +7,7 @@ const TimeTravel = (props) => {
         <div className="game_history">
             <button className={showHistory}
                     onClick={props.toggleHistory}>
-                Wish You Could Time Travel?
+                Wish you could time travel?
             </button>
             <div className={props.showHistory ? 'list' : 'list_hidden'}>
                 <ul>{props.moves}</ul>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import {
     playerMove, timeTravel, toggleHistory,
@@ -150,7 +150,6 @@ class Game extends Component {
 
         return (
             <div className="game_page">
-                <hr />
                <div className='left_col_game'>
                        <Link to='/'>
                            <button className="exit_game">
@@ -221,4 +220,4 @@ const matchDispatchToProps = (dispatch) => {
         }, dispatch)
 };
 
-export default connect(mapStateToProps, matchDispatchToProps)(Game);
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Game));

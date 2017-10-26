@@ -30,3 +30,9 @@ export const setStarter = (starter) => {
         starter: starter
     }
 };
+export const setTheme = (theme) => {
+    return {
+        type: 'SET_THEME',
+        theme: theme
+    }
+};

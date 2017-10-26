@@ -5,7 +5,8 @@ const initialState =
         difficulty: 'expert',
         playerStarts: true,
         mode: 'normal',
-        pace: null
+        pace: null,
+        theme: 'light'
     };
 
 const gameReducer = (state = initialState, action) => {
@@ -34,6 +35,11 @@ const gameReducer = (state = initialState, action) => {
         case 'SET_STARTER':
             return {...state,
                 playerStarts: action.starter
+            };
+            break;
+        case 'SET_THEME':
+            return {...state,
+                theme: action.theme
             };
             break;
         default:

@@ -7,6 +7,7 @@ const Header = ({titleName, author, git}) => {
                 {author}
             </p></a><br />
             <p>{titleName}</p>
+            <hr />
         </div>
     )
 };

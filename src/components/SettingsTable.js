@@ -6,6 +6,22 @@ const SettingsTable = (props) => {
             <tbody>
             <tr>
                 <td>
+                    Theme:
+                </td>
+                <td className="value">
+                    <button onClick={() => props.setTheme('light')}
+                            className={(props.theme === 'light') ? 'selected' : ''}>
+                        Light
+                    </button> /
+                    <button onClick={() => props.setTheme('dark')}
+                            className={(props.theme === 'dark') ? 'selected' : ''}>
+                        Dark
+                    </button>
+                    <hr className='hr_settings' />
+                </td>
+            </tr>
+            <tr>
+                <td>
                     Grid:
                 </td>
                 <td className="value">

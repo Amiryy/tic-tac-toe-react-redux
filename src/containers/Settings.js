@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import { setGrid } from '../actions/gameActions';
-import {setMode, setPace, setVs, setDiff, setStarter} from "../actions/settingsActions";
+import {setTheme, setMode, setPace, setVs, setDiff, setStarter} from "../actions/settingsActions";
 import SettingsTable from "../components/SettingsTable";
 
 class Settings extends Component {
@@ -12,7 +12,6 @@ class Settings extends Component {
         return (
             <div className="settings_page">
                 <h2>Settings:</h2>
-                <hr />
                 <div className='left_col_settings'>
                     <Link to='/'>
                         <button className="exit_game">Back</button>
@@ -20,12 +19,14 @@ class Settings extends Component {
                 </div>
                 <div className='mid_col_settings'>
                     <SettingsTable
+                        theme={this.props.theme}
                         grid={this.props.grid}
                         mode={this.props.mode}
                         pace={this.props.pace}
                         versus={this.props.versus}
                         difficulty={this.props.difficulty}
                         playerStarts={this.props.playerStarts}
+                        setTheme={this.props.setTheme}
                         setGrid={this.props.setGrid}
                         setMode={this.props.setMode}
                         setPace={this.props.setPace}
@@ -39,6 +40,7 @@ class Settings extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    theme: state.settings.theme,
     grid: state.game.grid,
     mode: state.settings.mode,
     pace: state.settings.pace,
@@ -49,6 +51,7 @@ const mapStateToProps = (state) => ({
 const matchDispatchToProps = (dispatch) => {
     return bindActionCreators(
         {
+            setTheme: setTheme,
             setGrid: setGrid,
             setMode: setMode,
             setPace: setPace,
@@ -58,4 +61,4 @@ const matchDispatchToProps = (dispatch) => {
         }, dispatch)
 };
 
-export default connect(mapStateToProps, matchDispatchToProps)(Settings);
+export default withRouter(connect(mapStateToProps, matchDispatchToProps)(Settings));
