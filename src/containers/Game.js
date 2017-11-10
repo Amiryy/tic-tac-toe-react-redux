@@ -140,6 +140,7 @@ class Game extends Component {
         }
     }
     render () {
+        const { mode, pace, versus, playerStarts} = this.props.gameSettings;
         const history = this.props.history;
         const currentBoard = this.props.currentBoard;
         const winner = this.indicateVictory(currentBoard).winner;
@@ -164,8 +165,8 @@ class Game extends Component {
                 <div className='mid_col_game'>
                    <GameStatus
                         status={status}
-                        gameMode={this.props.mode}
-                        timerPace={this.props.pace}
+                        gameMode={mode}
+                        timerPace={pace}
                         timeUp={this.props.timeUp}
                         xTurn={this.props.xTurn}
                         gameEnd={endOfGame}
@@ -178,8 +179,8 @@ class Game extends Component {
                         xTurn={this.props.xTurn}
                         playerMove={(i) => this.playerMove(i)}
                         winningRow={winningRow}
-                        playerStarts={this.props.playerStarts}
-                        versus={this.props.versus} />
+                        playerStarts={playerStarts}
+                        versus={versus} />
                </div>
                 <div className='right_col_game'>
                    <TimeTravel
@@ -193,10 +194,6 @@ class Game extends Component {
 }
 const mapStateToProps = (state) => ({
     gameSettings: state.settings,
-    mode: state.settings.mode,
-    pace: state.settings.pace,
-    versus: state.settings.versus,
-    playerStarts: state.settings.playerStarts,
     grid: state.game.grid,
     streaks: state.game.streaks,
     history: state.game.history,

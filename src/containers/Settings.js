@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -7,37 +7,21 @@ import { setGrid } from '../actions/gameActions';
 import {setTheme, setMode, setPace, setVs, setDiff, setStarter} from "../actions/settingsActions";
 import SettingsTable from "../components/SettingsTable";
 
-class Settings extends Component {
-    render () {
-        return (
-            <div className="settings_page">
-                <h2>Settings:</h2>
-                <div className='left_col_settings'>
-                    <Link to='/'>
-                        <button className="exit_game">Back</button>
-                    </Link>
-                </div>
-                <div className='mid_col_settings'>
-                    <SettingsTable
-                        theme={this.props.theme}
-                        grid={this.props.grid}
-                        mode={this.props.mode}
-                        pace={this.props.pace}
-                        versus={this.props.versus}
-                        difficulty={this.props.difficulty}
-                        playerStarts={this.props.playerStarts}
-                        setTheme={this.props.setTheme}
-                        setGrid={this.props.setGrid}
-                        setMode={this.props.setMode}
-                        setPace={this.props.setPace}
-                        setVs={this.props.setVs}
-                        setDiff={this.props.setDiff}
-                        setStarter={this.props.setStarter} />
-                </div>
+const Settings = (props) => {
+    return (
+        <div className="settings_page">
+            <h2>Settings:</h2>
+            <div className='left_col_settings'>
+                <Link to='/'>
+                    <button className="exit_game">Back</button>
+                </Link>
             </div>
-        )
-    }
-}
+            <div className='mid_col_settings'>
+                <SettingsTable settings={props} />
+            </div>
+        </div>
+    )
+};
 
 const mapStateToProps = (state) => ({
     theme: state.settings.theme,

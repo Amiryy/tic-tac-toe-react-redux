@@ -1,130 +1,63 @@
 import React from 'react';
+import Setting from './Setting';
 
-const SettingsTable = (props) => {
+const SettingsTable = ({ settings }) => {
     return (
         <table>
             <tbody>
-            <tr>
-                <td>
-                    Theme:
-                </td>
-                <td className="value">
-                    <button onClick={() => props.setTheme('light')}
-                            className={(props.theme === 'light') ? 'selected' : ''}>
-                        Light
-                    </button> /
-                    <button onClick={() => props.setTheme('dark')}
-                            className={(props.theme === 'dark') ? 'selected' : ''}>
-                        Dark
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Grid:
-                </td>
-                <td className="value">
-                    <button onClick={() => props.setGrid(9)}
-                            className={(props.grid === 9) ? 'selected' : ''}>
-                        3x3
-                    </button> /
-                    <button onClick={() => props.setGrid(16)}
-                            className={(props.grid === 16) ? 'selected' : ''}>
-                        4x4
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Mode:
-                </td>
-                <td className='value'>
-                    <button onClick={()=> props.setMode('normal' , null)}
-                            className={(props.mode === 'normal') ? 'selected' : ''}>
-                        Normal
-                    </button> /
-                    <button onClick={() => props.setMode('timed' , 3)}
-                            className={(props.mode === 'timed') ? 'selected' : ''}>
-                        Timed
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr className={(props.mode === 'timed') ? 'shown' : 'hidden'}>
-                <td>
-                    Pace:
-                </td>
-                <td className='value'>
-                    <button onClick={()=>
-                        props.setPace((props.pace===2) ?
-                            (props.pace) : (props.pace - 1)) }
-                            className='set_pace'>
-                        {props.pace === 2 ? '' : '-'}
-                    </button>
-                    {props.pace} sec
-                    <button onClick={()=>
-                        props.setPace((props.pace===5) ?
-                            (props.pace) : (props.pace + 1)) }
-                            className='set_pace'>
-                        {props.pace === 5 ? '' : '+'}
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    Vs.
-                </td>
-                <td className="value">
-                    <button onClick={() => props.setVs('P')}
-                            className={(props.versus === 'P') ? 'selected' : ''}>
-                        Player
-                    </button> /
-                    <button onClick={() => props.setVs('A')}
-                            className={(props.versus === 'A') ? 'selected' : ''}>
-                        AI
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr className={(props.versus === 'A') ? 'shown' : 'hidden'}>
-                <td>
-                    Difficulty:
-                </td>
-                <td className='value'>
-                    <button onClick={()=> props.setDiff('easy')}
-                            className={(props.difficulty === 'easy') ? 'selected' : ''}>
-                        Easy
-                    </button> /
-                    <button onClick={() => props.setDiff('novice')}
-                            className={(props.difficulty === 'novice') ? 'selected' : ''}>
-                        Novice
-                    </button> /
-                    <button onClick={() => props.setDiff('expert')}
-                            className={(props.difficulty === 'expert') ? 'selected' : ''}>
-                        Expert
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
-            <tr className={(props.versus === 'A') ? 'shown' : 'hidden'}>
-                <td>
-                    Play as:
-                </td>
-                <td className='value'>
-                    <button onClick={()=> props.setStarter(true)}
-                            className={ props.playerStarts ? 'selected' : '' }>
-                        X - Play 1st
-                    </button> /
-                    <button onClick={() => props.setStarter(false)}
-                            className={ props.playerStarts ? '' : 'selected' }>
-                        O - Play 2nd
-                    </button>
-                    <hr className='hr_settings' />
-                </td>
-            </tr>
+            <Setting name='Theme'
+                     options={{
+                         light : 'Light',
+                         dark : 'Dark'
+                     }}
+                     initialValue={settings.theme}
+                     setValue={settings.setTheme} />
+
+            <Setting name='Grid'
+                     options={{
+                         9 : '3x3',
+                         16 : '4x4'
+                     }}
+                     initialValue={settings.grid}
+                     setValue={settings.setGrid} />
+
+            <Setting name='Mode'
+                     options={{
+                         normal : 'Normal',
+                         timed : 'Timed'
+                     }}
+                     initialValue={settings.mode}
+                     setValue={settings.setMode}
+                     param={3} />
+
+            <Setting name='Pace'
+                     type='counter'
+                     boundaries={[2, 5]}
+                     initialValue={settings.pace}
+                     setValue={settings.setPace}
+                     condition={settings.mode === 'timed'}/>
+
+            <Setting name='Versus'
+                     options={{P : 'Player', A : 'AI'}}
+                     initialValue={settings.versus}
+                     setValue={settings.setVs} />
+
+            <Setting name='Difficulty'
+                     options={{
+                         easy : 'Easy',
+                         novice : 'Novice',
+                         expert : 'Expert'
+                     }}
+                     initialValue={settings.difficulty}
+                     setValue={settings.setDiff}
+                     condition={settings.versus === 'A'} />
+
+            <Setting name='Play as'
+                     type='boolean'
+                     options={['X - Play 1st', 'O - Play 2nd']}
+                     initialValue={settings.playerStarts}
+                     setValue={settings.setStarter}
+                     condition={settings.versus === 'A'} />
             </tbody>
         </table>
     );

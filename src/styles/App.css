@@ -148,7 +148,8 @@
   animation: slide-in 0.5s forwards; }
 
 .light_theme .hidden {
-  animation: slide-out 0.2s forwards; }
+  animation: slide-out 0.2s forwards;
+  visibility: hidden; }
 
 .light_theme .hr_settings {
   display: none; }
@@ -256,7 +257,7 @@
   box-shadow: 2px 2px 2px rgba(0, 200, 200, 0.56);
   position: absolute;
   width: 20%;
-  top: 20%;
+  top: 22%;
   right: 40%;
   left: 40%; }
 
@@ -428,7 +429,8 @@
   animation: slide-in 0.5s forwards; }
 
 .dark_theme .hidden {
-  animation: slide-out 0.2s forwards; }
+  animation: slide-out 0.2s forwards;
+  visibility: hidden; }
 
 .dark_theme .hr_settings {
   display: none; }
@@ -613,7 +615,7 @@
       width: 100%;
       margin: 1% 0 1% 0; }
     .light_theme .react-progress-bar {
-      top: 27%;
+      top: 40%;
       width: 100%;
       margin: 0 auto;
       right: 0;
@@ -678,7 +680,7 @@
       width: 100%;
       margin: 1% 0 1% 0; }
     .dark_theme .react-progress-bar {
-      top: 27%;
+      top: 30%;
       width: 100%;
       margin: 0 auto;
       right: 0;

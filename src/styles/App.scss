@@ -143,6 +143,7 @@
   }
   .hidden {
     animation: slide-out 0.2s forwards;
+    visibility: hidden;
   }
   .hr_settings{
     display: none;
@@ -259,7 +260,7 @@
     box-shadow: 2px 2px 2px rgba(0, 200, 200, 0.56);
     position: absolute;
     width: 20%;
-    top: 20%;
+    top: 22%;
     right: 40%;
     left: 40%;
   }
@@ -436,6 +437,7 @@
   }
   .hidden {
     animation: slide-out 0.2s forwards;
+    visibility: hidden;
   }
   .hr_settings{
     display: none;
@@ -634,7 +636,7 @@
       margin: 1% 0 1% 0;
     }
     .react-progress-bar {
-      top: 27%;
+      top: 40%;
       width: 100%;
       margin: 0 auto;
       right: 0;
@@ -720,7 +722,7 @@
       margin: 1% 0 1% 0;
     }
     .react-progress-bar {
-      top: 27%;
+      top: 30%;
       width: 100%;
       margin: 0 auto;
       right: 0;

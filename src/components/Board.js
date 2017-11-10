@@ -28,14 +28,13 @@ const Board = (props) => {
         <div className={'board_' + props.grid}>
             {
                props.cells.map((value, cell)=>{
-                  return ( <Cell
-                                key={cell}
-                                id={cell}
-                                className={checkWinningCell(cell)}
-                                available={checkAvailability()}
-                                xTurn={props.xTurn}
-                                value={props.cells[cell]}
-                                onClick={(cell) => props.playerMove(cell)}
+                  return ( <Cell key={cell}
+                                 id={cell}
+                                 className={checkWinningCell(cell)}
+                                 available={checkAvailability()}
+                                 xTurn={props.xTurn}
+                                 value={props.cells[cell]}
+                                 onClick={(cell) => props.playerMove(cell)}
                       />
                   )
                })
