@@ -69,22 +69,37 @@
   margin: 0 auto;
   display: block; }
 
+.light_theme #github_icon {
+  opacity: 0.7;
+  float: left;
+  cursor: pointer;
+  transition: 0.25s ease-out; }
+
 .light_theme .author {
   z-index: 1001;
-  position: absolute;
-  padding: 1%;
+  margin-top: 1%;
   font-size: 1rem;
   float: left;
-  margin-left: 3%;
+  margin-left: 1%;
   display: block;
+  position: absolute; }
+
+.light_theme .author span {
+  cursor: pointer;
+  float: left;
+  padding-top: 5%;
+  padding-left: 5%;
   transition: 0.25s ease-out; }
 
 .light_theme a {
   color: inherit;
   transition: 0.25s ease-out; }
 
-.light_theme .author:hover {
+.light_theme .author:hover #author_span {
   color: cyan; }
+
+.light_theme .author:hover #github_icon {
+  opacity: 1; }
 
 .light_theme a:active {
   outline: none; }
@@ -346,22 +361,37 @@
   margin: 0 auto;
   display: block; }
 
+.dark_theme #github_icon {
+  opacity: 0.7;
+  float: left;
+  cursor: pointer;
+  transition: 0.25s ease-out; }
+
 .dark_theme .author {
   z-index: 1001;
-  position: absolute;
-  padding: 1%;
+  margin-top: 1%;
   font-size: 1rem;
   float: left;
-  margin-left: 3%;
+  margin-left: 1%;
   display: block;
+  position: absolute; }
+
+.dark_theme .author span {
+  cursor: pointer;
+  float: left;
+  padding-top: 5%;
+  padding-left: 5%;
   transition: 0.25s ease-out; }
 
 .dark_theme a {
   color: inherit;
   transition: 0.25s ease-out; }
 
-.dark_theme .author:hover {
+.dark_theme .author:hover #author_span {
   color: #3eff00; }
+
+.dark_theme .author:hover #github_icon {
+  opacity: 1; }
 
 .dark_theme a:active {
   outline: none; }
