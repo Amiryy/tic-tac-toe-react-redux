@@ -121,16 +121,16 @@
     animation: fade-in 1s forwards;
   }
   .left_col_settings {
-    width: 25%;
+    width: 15%;
     display: inline-block;
     float: left;
   }
   .mid_col_settings {
-    width: 75%;
+    width: 65%;
     margin: 0 auto;
     display: inline-block;
   }
-  .value button {
+  .setting_value button {
     background-color: transparent;
     border: none;
     margin-bottom: 1%;
@@ -138,18 +138,10 @@
     padding: 3%;
     font-size: 1.2rem;
   }
-  .value button.selected {
+  .setting_value button.selected {
     color: #00c8c8;
   }
-  .value_hidden button{
-    background-color: transparent;
-    border: none;
-    margin-bottom: 1%;
-    transition: 0.33s ease-out;
-    padding: 3%;
-    font-size: 1.2rem;
-  }
-  .value button.set_pace{
+  .setting_value button.set_pace{
     font-size: 1.7rem;
   }
   .set_pace:hover {
@@ -173,6 +165,9 @@
   td {
     font-weight: bold;
     font-size: 1.5rem;
+  }
+  .exit_settings {
+    float: right;
   }
 
   .game_page{
@@ -248,7 +243,7 @@
   button:focus {
     outline: none;
   }
-  .exit_game {
+  .exit_game, .exit_settings {
     background-color: transparent;
     margin: 1%;
     padding: 2%;
@@ -257,7 +252,7 @@
     border-radius: 5px;
     transition: 0.33s ease-out;
   }
-  .exit_game:hover {
+  .exit_game:hover,  .exit_settings:hover {
     box-shadow: 1px 1px 1px 1px #888888 inset;
     color: #009292;
   }
@@ -432,16 +427,16 @@
     padding-top: 1%;
   }
   .left_col_settings {
-    width: 25%;
+    width: 15%;
     display: inline-block;
     float: left;
   }
   .mid_col_settings {
-    width: 75%;
+    width: 65%;
     margin: 0 auto;
     display: inline-block;
   }
-  .value button {
+  .setting_value button {
     background-color: transparent;
     border: none;
     margin-bottom: 1%;
@@ -449,18 +444,11 @@
     padding: 3%;
     font-size: 1.2rem;
   }
-  .value button.selected {
+  .setting_value button.selected {
     color: #3eff00;
   }
-  .value_hidden button{
-    background-color: transparent;
-    border: none;
-    margin-bottom: 1%;
-    transition: 0.33s ease-out;
-    padding: 3%;
-    font-size: 1.2rem;
-  }
-  .value button.set_pace{
+
+  .setting_value button.set_pace{
     font-size: 1.7rem;
   }
   .set_pace:hover {
@@ -484,6 +472,9 @@
   td {
     font-weight: bold;
     font-size: 1.5rem;
+  }
+  .exit_settings {
+    float: right;
   }
 
   .game_page{
@@ -561,7 +552,7 @@
   button:focus {
     outline: none;
   }
-  .exit_game {
+  .exit_game, .exit_settings {
     background-color: transparent;
     margin: 1%;
     padding: 2%;
@@ -570,7 +561,7 @@
     border-radius: 5px;
     transition: 0.33s ease-out;
   }
-  .exit_game:hover {
+  .exit_game:hover, .exit_settings:hover {
     color: #3eff00;
   }
   #status {

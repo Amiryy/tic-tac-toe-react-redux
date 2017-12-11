@@ -13,7 +13,7 @@ const Settings = (props) => {
             <h2>Settings:</h2>
             <div className='left_col_settings'>
                 <Link to='/'>
-                    <button className="exit_game">Back</button>
+                    <button className="exit_settings">Back</button>
                 </Link>
             </div>
             <div className='mid_col_settings'>

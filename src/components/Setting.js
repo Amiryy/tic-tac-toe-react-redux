@@ -13,7 +13,7 @@ import React from 'react';
        Example: options={['X - Play 1st', 'O - Play 2nd']} */
 
 // props.param = an optional additional parameter to pass to setValue(option, param);
-// if props.condition is passed, the component will be shown only when its true (configure '.hidden' & '.shown').
+// if props.condition is passed, the component will be shown only when its true (configure '.hidden' & '.shown' in css).
 // props.boundaries = an optional prop that sets limitation of 'counter' settings. default boundaries = [0, 10].
 
 const Setting = (props) => {
@@ -40,7 +40,7 @@ const Setting = (props) => {
                 <td>
                     {name}:
                 </td>
-                <td className="value">
+                <td className='setting_value'>
                     {options}
                     <hr className='hr_settings' />
                 </td>
@@ -54,7 +54,7 @@ const Setting = (props) => {
                 <td>
                     {name}:
                 </td>
-                <td className="value">
+                <td className='setting_value'>
                     <button onClick={()=> setValue(true)}
                             className={ initialValue ? 'selected' : '' }>
                         {props.options[0]}
@@ -76,7 +76,7 @@ const Setting = (props) => {
                 <td>
                     {name}:
                 </td>
-                <td className='value'>
+                <td className='setting_value'>
                     <button onClick={() => setValue(initialValue - 1) }
                             className={initialValue <= hasBoundaries[0] ?
                                 'set_pace hidden' : 'set_pace'}>
